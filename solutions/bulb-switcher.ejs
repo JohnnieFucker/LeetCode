@@ -1,0 +1,78 @@
+<div>常规方法：</div>
+<div>
+    <pre>
+        <code class="language-javascript">
+ /**
+  * @param {number} n
+  * @return {number}
+  */
+ var bulbArr;
+ var bulbSwitch = function (n) {
+     if (n === 0) {
+         return 0;
+     }
+     initBulb(n);
+     for (var j = 0; j < n; j++) {
+         if (j > 0) {
+             if (j == n - 1) {
+                 toggleLastBulb();
+             } else {
+                 if (j % 2 == 1) {
+                     turnOffEvery2ndBulb(n);
+                 } else {
+                     toggleEvery3rdBulb(n);
+                 }
+             }
+         }
+     }
+     return countLightingBulb();
+ };
+ function initBulb(n) {
+     bulbArr = [];
+     for (var i = 0; i < n; i++) {
+         bulbArr.push(true);
+     }
+ }
+ function countLightingBulb() {
+     var count = 0;
+     bulbArr.forEach(function (b) {
+         if (b) {
+             count++;
+         }
+     });
+     return count;
+ }
+ function turnOffEvery2ndBulb(n) {
+     for (i = 0; i < n; i++) {
+         if (i % 2 == 1) {
+             bulbArr[i] = false;
+         }
+     }
+ }
+ function toggleEvery3rdBulb(n) {
+     for (i = 0; i < n; i++) {
+         if (i % 3 == 2) {
+             bulbArr[i] = !bulbArr[i];
+         }
+     }
+ }
+ function toggleLastBulb() {
+     bulbArr[bulbArr.length - 1] = false;
+ }
+        </code>
+    </pre>
+</div>
+<div>最佳：</div>
+<div>
+    <pre>
+        <code class="language-javascript">
+  /**
+  * @param {number} n
+  * @return {number}
+  */
+ var bulbSwitch = function (n) {
+     return Math.floor(Math.sqrt(n));
+ }
+        </code>
+    </pre>
+</div>
