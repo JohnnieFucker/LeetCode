@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0,user-scalable=no" name="viewport">
+    <link rel="shortcut icon" href="/assets/favicon.ico?v=2.0">
+    <title>LeetCode algorithms problems </title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+    <style>
+        body {
+            font-weight: 400;
+            font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei", "微软雅黑", SimSun, "宋体", sans-serif;
+            background: #f5f5f5;
+            color: #333333;
+            font-size: 1.2em;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>LeetCode algorithms problems</h2>
+    <table class="table">
+        <thead>
+        <th>#</th>
+        <th>Title</th>
+        <th>Difficulty</th>
+        </thead>
+        <% for(var i = 0;i < keys.length;i++){ %>
+        <tr>
+            <td><%= problems[keys[i]].num %></td>
+            <td>
+                <span class="label label-<%= problems[keys[i]].difficulty==='Hard'?'danger':(problems[keys[i]].difficulty === 'Medium' ? 'warning' : 'success') %> round"><%= problems[keys[i]].difficulty %></span>
+            </td>
+            <td><a href="<%= problems[keys[i]].url %>"><%= problems[keys[i]].title %>
+                    <% if(problems[keys[i]].private){ %>
+                    <i class="glyphicon glyphicon-lock"></i>
+                    <% } %>
+                </a></td>
+        </tr>
+        <% } %>
+    </table>
+</div>
+</body>
+</html>

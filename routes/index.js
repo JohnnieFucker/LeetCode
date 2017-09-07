@@ -1,35 +1,47 @@
-var express = require('express');
-var router = express.Router();
-var request = require('request');
-var jsdom = require('jsdom');
-var fs = require('fs');
-router.get('/:problem_id', function (req, res) {
-   var problem_id = req.params.problem_id;
-    var url ='https://leetcode.com/problems/'+problem_id+'/';
-    request(url,function(error, response, body){
-        if (!error && response.statusCode == 200) {
-            jsdom.env({
-                html: body,
-                done: function(errors, window) {
-                    if (errors) {
-                        window.close();
-                        return callback(errors);
-                    }
-                    var nodes = window.document.getElementsByClassName('question-title');
-                    var title = nodes[0].getElementsByTagName('h3')[0].innerHTML;
-                    var nodes2 = window.document.getElementsByClassName('question-content');
-                    var content =nodes2[0].innerHTML;
-                    if(fs.existsSync( process.cwd()+'/solutions/'+problem_id+'.ejs')){
-                        res.render(problem_id, {layout: '../public/layout.ejs',id:problem_id,title:title,content:content});
-                    }else{
-                        res.render('blank.ejs', {layout: '../public/layout.ejs',id:problem_id,title:title,content:content});
-                    }
+const express = require('express');
+
+const router = express.Router();
+const request = require('request');
+const jsdom = require('jsdom');
+const fs = require('fs');
+const path = require('path');
+const problems = require('../config/problemsList.json').algorithms;
+
+router.get('/problems/:problemId', (req, res) => {
+    const problemId = req.params.problemId;
+    const leetCodeUrl = `https://leetcode.com/problems/${problemId}/description/`;
+    if (problems.hasOwnProperty(problemId)) {
+        const solutionFile = `${path.dirname(__filename)}/../solutions/${problemId}.js`;
+        if (fs.existsSync(solutionFile)) {
+            request(leetCodeUrl, (error, response, body) => {
+                if (!error && response.statusCode === 200) {
+                    jsdom.env({
+                        html: body,
+                        done: (errors, window) => {      // eslint-disable-line
+                            if (errors) {
+                                window.close();
+                                res.render(errors, { layout: '', message: 'leetcode error' });
+                            }
+                            const nodes = window.document.getElementsByClassName('question-title');
+                            const title = nodes[0].getElementsByTagName('h3')[0].innerHTML;
+                            const nodes2 = window.document.getElementsByClassName('question-description');
+                            const content = nodes2[0].innerHTML;
+                            const solution = fs.readFileSync(solutionFile);
+                            res.render('solution.ejs', { layout: '', id: problemId, title: title, content: content, solution: solution });
+                        }
+                    });
+                } else {
+                    res.render(error, { layout: '', message: 'leetcode error' });
                 }
             });
-
-        }else{
-            res.render(error, {layout: '../public/layout.ejs',message:'leetcode error'});
+        } else {
+            res.redirect(leetCodeUrl);
         }
-    });
+    } else {
+        res.redirect(leetCodeUrl);
+    }
+});
+router.get('/', (req, res) => {
+    res.render('index.ejs', { layout: '', problems: problems, keys: Object.keys(problems) });
 });
 module.exports = router;
