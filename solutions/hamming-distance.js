@@ -23,6 +23,8 @@
 //     }
 //     return distance;
 // };
+
+
 // const hammingDistance = (x, y) => {
 //     if (x === y) {
 //         return 0;
@@ -34,12 +36,11 @@ const hammingDistance = (x, y) => {
     if (x === y) {
         return 0;
     }
-    const ret = (x ^ y).toString(2);
+    let ret = (x ^ y);
     let distance = 0;
-    for (let i = 0; i < ret.length; i++) {
-        if (ret[i] === '1') {
-            distance++;
-        }
+    while (ret) {
+        distance += ret & 1;// eslint-disable-line
+        ret >>= 1;// eslint-disable-line
     }
 
     return distance;
