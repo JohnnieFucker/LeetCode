@@ -8,6 +8,13 @@ const html = '<table class="table table-striped"><thead><tr class="reactable-col
 const $ = cheerio.load(html);
 const list = $('tbody > tr');
 const problems = {};
+const quiz = {
+    Easy: [],
+    Medium: [],
+    Hard: []
+};
+const noFit = require('./config/config.json').noFit;
+
 list.each((index, tr) => {
     if ($($(tr).children()[1]).text() !== '') {
         const item = {
@@ -22,11 +29,16 @@ list.each((index, tr) => {
         if (fs.existsSync(`${path.dirname(__filename)}/solutions/${item.id}.js`)) {
             item.solved = true;
         }
+        item.fit = noFit.indexOf(item.id) < 0;
         problems[item.id] = item;
+        if (item.fit) {
+            quiz[item.difficulty].push(item.id);
+        }
     }
 });
 const json = {
     algorithms: problems
 };
 JsonFile.writeFileSync(`${path.dirname(__filename)}/config/problemsList.json`, json);
+JsonFile.writeFileSync(`${path.dirname(__filename)}/config/quizList.json`, quiz);
 console.log(`${Object.keys(problems).length} problems parsed`);

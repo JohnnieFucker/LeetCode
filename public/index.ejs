@@ -23,24 +23,26 @@
     <h2>LeetCode algorithms problems</h2>
     <table class="table table-hover">
         <thead>
-        <th width="20px"></th>
+        <th width="40px"></th>
         <th>#</th>
         <th>Difficulty</th>
         <th>Title</th>
         </thead>
         <% for(var i = 0;i < keys.length;i++){ %>
+        <% if(!problems[keys[i]].private){ %>
         <tr>
-            <td><% if(problems[keys[i]].solved){ %><i class="glyphicon glyphicon-ok" style="color:#5cb85c"></i><%}%></td>
+            <td><% if(problems[keys[i]].solved){ %><i class="glyphicon glyphicon-ok" style="color:#5cb85c"></i><%}%><% if(problems[keys[i]].fit){ %><i class="glyphicon glyphicon-user" style="color:#5cb85c"></i><%}%></td>
             <td><%= problems[keys[i]].num %></td>
             <td>
                 <span class="label label-<%= problems[keys[i]].difficulty==='Hard'?'danger':(problems[keys[i]].difficulty === 'Medium' ? 'warning' : 'success') %> round"><%= problems[keys[i]].difficulty %></span>
             </td>
-            <td><a href="<%= problems[keys[i]].url %>"><%= problems[keys[i]].title %>
+            <td><a href="<%= problems[keys[i]].url %>" target="_blank"><%= problems[keys[i]].title %>
                     <% if(problems[keys[i]].private){ %>
                     <i class="glyphicon glyphicon-lock"></i>
                     <% } %>
                 </a></td>
         </tr>
+        <% } %>
         <% } %>
     </table>
 </div>

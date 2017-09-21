@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0,user-scalable=no" name="viewport">
+    <link rel="shortcut icon" href="/assets/favicon.ico?v=2.0">
+    <title>LeetCode Quiz</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/prism/0.0.1/prism.min.css" type="text/css"/>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">
+    <style>
+        body {
+            font-weight: 400;
+            font-family: Helvetica, Tahoma, Arial, "Microsoft YaHei", "微软雅黑", SimSun, "宋体", sans-serif;
+            background: #f5f5f5;
+            color: #333333;
+            padding: 0;
+            margin: 0;
+            font-size: 1.2em;
+            word-wrap: break-word;
+        }
+
+        pre {
+            font-size: 1em;
+            overflow: auto;
+        }
+        pre>code{
+            max-height: none !important;
+        }
+        pre {
+            font-size: 1em;
+            overflow: auto;
+        }
+
+        .leetcodeDiv {
+            padding: 30px 15px;
+            margin-bottom: 30px;
+        }
+        .leetcodeDiv pre{
+            white-space: pre-wrap;
+        }
+        .title {
+            display: inline-block;
+            font-size: 2em;
+            text-align: center;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <%for(var i=0;i<list.length;i++){%>
+    <div class="row">
+        <div class="leetcodeDiv">
+            <a class="title" href="/problems/<%= list[i].id %>/" target="_blank">
+                <%= list[i].title %>
+            </a>
+            <div class="content">
+                <%- list[i].content %>
+            </div>
+        </div>
+    </div>
+    <%}%>
+</div>
+<script src="//cdn.bootcss.com/prism/0.0.1/prism.min.js"></script>
+</body>
+</html>
